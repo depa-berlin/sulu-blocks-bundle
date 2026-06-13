@@ -64,7 +64,9 @@ class BlockRegistry
     {
         $types = [];
         foreach ($this->bundles as $info) {
-            $types = [...$types, ...$info['blocks']];
+            /** @var list<string> $blocks */
+            $blocks = $info['blocks'] ?? [];
+            $types = [...$types, ...$blocks];
         }
 
         return array_values(array_unique($types));
@@ -75,7 +77,9 @@ class BlockRegistry
      */
     public function getBlockTypesForBundle(string $bundleName): array
     {
-        return $this->bundles[$bundleName]['blocks'] ?? [];
+        /** @var list<string> $blocks */
+        $blocks = $this->bundles[$bundleName]['blocks'] ?? [];
+        return $blocks;
     }
 
     /**
@@ -89,17 +93,19 @@ class BlockRegistry
     /**
      * Returns the canonical API/config payload shared by the REST controller and SuluBlocksAdmin.
      *
-     * @return array{installedBundles: list<array<string,mixed>>, totalBlocks: int, connections: list<array<string,mixed>>}
+     * @return array{installedBundles: list<array<string,mixed>>, totalBlocks: int, connections: array<array<string,mixed>>}
      */
     public function getApiData(): array
     {
         $bundles = [];
         foreach ($this->bundles as $name => $info) {
+            /** @var list<string> $blocks */
+            $blocks = $info['blocks'] ?? [];
             $bundles[] = [
                 'name'       => $name,
                 'package'    => $info['package'],
-                'blockCount' => \count($info['blocks']),
-                'blocks'     => $info['blocks'],
+                'blockCount' => \count($blocks),
+                'blocks'     => $blocks,
                 'children'   => $info['children'] ?? [],
             ];
         }

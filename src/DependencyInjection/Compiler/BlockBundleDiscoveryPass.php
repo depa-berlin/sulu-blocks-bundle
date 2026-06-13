@@ -39,7 +39,7 @@ class BlockBundleDiscoveryPass implements CompilerPassInterface
                 $registryDef->addMethodCall('registerConnection', [
                     $connection['requires'],
                     $connection['blocks'],
-                    $connection['description'] ?? '',
+                    $connection['description'],
                 ]);
             }
         }

@@ -43,7 +43,7 @@ class BlockBundleDiscoveryPassTest extends TestCase
         $this->pass->process($this->container);
 
         $calls = $this->container->getDefinition('sulu_blocks.registry')->getMethodCalls();
-        $registerBundleCalls = array_filter($calls, static fn($c) => $c[0] === 'registerBundle');
+        $registerBundleCalls = array_filter($calls, static fn($c) => \is_array($c) && ($c[0] ?? null) === 'registerBundle');
         self::assertCount(1, $registerBundleCalls);
     }
 
@@ -55,7 +55,7 @@ class BlockBundleDiscoveryPassTest extends TestCase
         $this->pass->process($this->container);
 
         $calls = $this->container->getDefinition('sulu_blocks.registry')->getMethodCalls();
-        $registerBundleCalls = array_filter($calls, static fn($c) => $c[0] === 'registerBundle');
+        $registerBundleCalls = array_filter($calls, static fn($c) => \is_array($c) && ($c[0] ?? null) === 'registerBundle');
         self::assertCount(0, $registerBundleCalls);
     }
 
@@ -76,6 +76,8 @@ class BlockBundleDiscoveryPassTest extends TestCase
         $registerBundlePos = array_search('registerBundle', $methods, true);
         $registerConnectionPos = array_search('registerConnection', $methods, true);
 
+        self::assertIsInt($registerBundlePos);
+        self::assertIsInt($registerConnectionPos);
         self::assertLessThan(
             $registerConnectionPos,
             $registerBundlePos,

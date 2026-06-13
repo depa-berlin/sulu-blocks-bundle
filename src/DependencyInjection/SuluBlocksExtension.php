@@ -12,17 +12,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class SuluBlocksExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * Known bundle names for connection detection.
-     * Block lists and children are owned by each sub-bundle's Extension.
-     *
-     * @var list<string>
-     */
-    private const KNOWN_BUNDLE_NAMES = [
-        'SuluBlockContentBundle',
-        'SuluBlockSwiperBundle',
-    ];
-
     /** @var array<array{requires: list<string>, blocks: list<string>, description: string}> */
     private const CROSS_CONNECTIONS = [
         [
