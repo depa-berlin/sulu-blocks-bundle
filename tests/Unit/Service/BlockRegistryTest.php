@@ -69,7 +69,7 @@ class BlockRegistryTest extends TestCase
 
         $types = $this->registry->getAllBlockTypes();
         self::assertCount(3, $types);
-        self::assertSame(1, \count(array_filter($types, static fn($t) => $t === 'shared')));
+        self::assertCount(1, array_filter($types, static fn($t) => $t === 'shared'));
     }
 
     public function testGetAllBlockTypesReturnsIndexedList(): void
@@ -78,7 +78,7 @@ class BlockRegistryTest extends TestCase
         $this->registry->registerBundle('BundleB', 'vendor/b', ['block-x', 'block-z']);
 
         $types = $this->registry->getAllBlockTypes();
-        self::assertSame(array_values($types), $types, 'array_unique must be re-indexed with array_values');
+        self::assertSame($types, array_values($types), 'array_unique must be re-indexed with array_values');
     }
 
     public function testGetBlockTypesForBundle(): void
