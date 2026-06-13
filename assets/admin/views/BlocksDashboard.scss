@@ -1,0 +1,374 @@
+/* Sulu color values (from sulu-admin-bundle/containers/Application/colors.scss) */
+/* $white: #fff | $mercury: #e6e6e6 | $concrete: #f2f2f2 | $alabaster: #fafafa  */
+/* $gallery: #ededed | $shakespeare: #52b6ca | $ebonyClay: #232e44               */
+/* $mineShaft: #353535 | $scorpion: #585858 | $dustyGray: #999 | $silver: #ccc  */
+/* $blueZodiac: #112a46 | $persianRed: #cf3939                                  */
+
+/* ── Layout ─────────────────────────────────────────────── */
+
+.dashboard {
+    padding: 32px;
+    max-width: 1100px;
+}
+
+.section {
+    margin-bottom: 48px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #353535;
+    margin: 0 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e6e6e6;
+}
+
+.title-count {
+    margin-left: auto;
+    background: #f2f2f2;
+    color: #585858;
+    border-radius: 12px;
+    padding: 1px 10px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+/* ── Summary ─────────────────────────────────────────────── */
+
+.summary {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.summary-card {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-top: 3px solid #52b6ca;
+    border-radius: 4px;
+    padding: 20px 24px;
+    text-align: center;
+}
+
+.summary-number {
+    font-size: 36px;
+    font-weight: 700;
+    color: #52b6ca;
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.summary-label {
+    font-size: 11px;
+    color: #585858;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ── Bundle Cards ─────────────────────────────────────────── */
+
+.bundle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+}
+
+.bundle-card {
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.bundle-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #232e44;
+    flex-shrink: 0;
+}
+
+.bundle-name {
+    font-weight: 600;
+    font-size: 12px;
+    color: #fff;
+    font-family: monospace;
+    letter-spacing: 0.3px;
+}
+
+.bundle-badge {
+    background: #52b6ca;
+    color: #fff;
+    border-radius: 10px;
+    padding: 2px 9px;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.bundle-package {
+    padding: 7px 16px;
+    font-size: 11px;
+    color: #585858;
+    font-family: monospace;
+    border-bottom: 1px solid #e6e6e6;
+    background: #fafafa;
+    flex-shrink: 0;
+}
+
+/* Scrollbarer Block-Listen-Bereich */
+.block-list-wrap {
+    flex: 1;
+    position: relative;
+    background: #fff;
+}
+
+.block-list {
+    list-style: none;
+    margin: 0;
+    padding: 12px 16px 16px;
+    max-height: 180px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.block-list-item {
+    line-height: 1.6;
+
+    code {
+        font-size: 11px;
+        color: #353535;
+        font-family: monospace;
+    }
+}
+
+.child-list {
+    list-style: none;
+    margin: 2px 0 4px 12px;
+    padding: 0;
+    border-left: 2px solid #e6e6e6;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.child-list-item {
+    padding-left: 8px;
+    line-height: 1.5;
+
+    code {
+        font-size: 10px;
+        color: #585858;
+        font-family: monospace;
+    }
+}
+
+/* Scroll-Indikator als Gradient-Overlay */
+.block-list-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 28px;
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.95));
+    pointer-events: none;
+}
+
+.scroll-hint {
+    position: absolute;
+    bottom: 5px;
+    right: 12px;
+    font-size: 10px;
+    color: #585858;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ── Block Types (gruppiert nach Bundle) ──────────────────── */
+
+.block-type-group {
+    margin-bottom: 20px;
+}
+
+.block-type-group-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #585858;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.block-type-group-count {
+    background: #f2f2f2;
+    color: #585858;
+    border-radius: 10px;
+    padding: 0 8px;
+    font-size: 11px;
+    font-weight: 400;
+    font-family: sans-serif;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.block-type-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.block-type {
+    display: inline-block;
+    background: #f2f2f2;
+    border: 1px solid #ededed;
+    border-radius: 3px;
+    padding: 3px 8px;
+    font-size: 11px;
+    color: #353535;
+    font-family: monospace;
+}
+
+/* ── Connections ──────────────────────────────────────────── */
+
+.connection-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.connection-card {
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-left: 4px solid #52b6ca;
+    border-radius: 0 4px 4px 0;
+    padding: 16px 20px;
+}
+
+.connection-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.connection-bundle {
+    background: #f2f2f2;
+    border: 1px solid #ededed;
+    border-radius: 3px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-family: monospace;
+    font-weight: 600;
+    color: #353535;
+}
+
+.connection-plus {
+    color: #52b6ca;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.connection-desc {
+    font-size: 13px;
+    color: #585858;
+    margin: 0 0 10px;
+}
+
+.connection-blocks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* ── States ───────────────────────────────────────────────── */
+
+.state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    gap: 12px;
+}
+
+.spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e6e6e6;
+    border-top-color: #52b6ca;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.error-icon {
+    width: 40px;
+    height: 40px;
+    background: #cf3939;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.state-text {
+    font-size: 14px;
+    color: #585858;
+    margin: 0;
+}
+
+.retry-button {
+    margin-top: 8px;
+    padding: 8px 20px;
+    background: #52b6ca;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 13px;
+
+    &:hover {
+        background: #112a46;
+    }
+}
+
+.empty-state {
+    padding: 32px;
+    background: #fafafa;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    text-align: center;
+
+    p {
+        margin: 0 0 6px;
+        color: #585858;
+        font-size: 14px;
+    }
+}
+
+.empty-hint {
+    font-size: 12px !important;
+    color: #999 !important;
+}

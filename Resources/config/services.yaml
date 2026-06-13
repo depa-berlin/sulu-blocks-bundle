@@ -1,0 +1,25 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    sulu_blocks.registry:
+        class: Depa\SuluBlocksBundle\Service\BlockRegistry
+        public: true
+
+    Depa\SuluBlocksBundle\Service\BlockRegistry:
+        alias: sulu_blocks.registry
+
+    Depa\SuluBlocksBundle\Twig\BlockRegistryTwigExtension:
+        tags:
+            - { name: twig.extension }
+
+    Depa\SuluBlocksBundle\Admin\SuluBlocksAdmin:
+        tags:
+            - { name: sulu.admin }
+            - { name: sulu.context, context: admin }
+
+    Depa\SuluBlocksBundle\Controller\Admin\BlockInfoController:
+        tags:
+            - { name: sulu.context, context: admin }
+            - { name: controller.service_arguments }

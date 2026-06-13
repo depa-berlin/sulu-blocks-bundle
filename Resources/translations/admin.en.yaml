@@ -1,0 +1,13 @@
+sulu_blocks:
+    navigation:
+        title: Block Bundles
+    dashboard:
+        installed_bundles: Installed Block Bundles
+        available_types: Available Block Types
+        connections: Cross-Bundle Connections
+        no_connections: No active connections.
+        no_connections_hint: Connections become active when multiple compatible bundles are installed together.
+        retry: Retry
+        installed_bundles_label: Installed Bundles
+        available_types_label: Available Block Types
+        connections_label: Active Connections

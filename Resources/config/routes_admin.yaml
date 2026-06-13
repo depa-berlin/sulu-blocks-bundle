@@ -1,0 +1,5 @@
+depa.sulu_blocks.info:
+    path: /sulu-blocks/info
+    methods: [GET]
+    defaults:
+        _controller: Depa\SuluBlocksBundle\Controller\Admin\BlockInfoController::infoAction
