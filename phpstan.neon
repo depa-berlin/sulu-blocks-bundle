@@ -4,5 +4,3 @@ parameters:
         - src
         - tests
     treatPhpDocTypesAsCertain: false
-    ignoreErrors:
-        - '#Class (Sulu|Twig)\\.*not found#'
