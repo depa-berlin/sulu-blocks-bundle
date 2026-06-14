@@ -9,3 +9,4 @@
 .phpunit.cache
 .phpstan.cache
 /var/
+/composer.lock
