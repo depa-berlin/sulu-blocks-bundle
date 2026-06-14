@@ -13,7 +13,7 @@ Meta-bundle for Sulu CMS that orchestrates modular block bundles. Provides a cen
 ## Architecture
 
 ```
-sulu-block-fragments          (shared XML fragments + Twig partials)
+sulu-block-helper          (shared XML fragments + Twig partials)
        │
        ├── sulu-block-content (29 content blocks)
        │
@@ -29,7 +29,7 @@ sulu-blocks-bundle            (this meta-bundle)
 - PHP 8.2+
 - Symfony 7.0+
 - Sulu CMS 3.0+
-- `depa-berlin/sulu-block-fragments`
+- `depa-berlin/sulu-block-helper`
 
 ## Installation
 
@@ -44,7 +44,7 @@ composer require depa-berlin/sulu-block-swiper
 Register in `config/bundles.php` (order matters):
 
 ```php
-Depa\SuluBlockFragmentsBundle\SuluBlockFragmentsBundle::class => ['all' => true],
+Depa\SuluBlockHelperBundle\SuluBlockHelperBundle::class => ['all' => true],
 Depa\SuluBlocksBundle\SuluBlocksBundle::class => ['all' => true],
 Depa\SuluBlockContentBundle\SuluBlockContentBundle::class => ['all' => true],  // optional
 Depa\SuluBlockSwiperBundle\SuluBlockSwiperBundle::class => ['all' => true],    // optional
