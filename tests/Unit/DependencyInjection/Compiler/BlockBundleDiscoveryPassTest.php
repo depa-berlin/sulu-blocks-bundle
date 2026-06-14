@@ -50,7 +50,6 @@ class BlockBundleDiscoveryPassTest extends TestCase
     public function testProcessIgnoresNonMetadataParameters(): void
     {
         $this->container->setParameter('some_other.parameter', ['not' => 'metadata']);
-        $this->container->setParameter('sulu_blocks.connections', []);
 
         $this->pass->process($this->container);
 
@@ -59,13 +58,17 @@ class BlockBundleDiscoveryPassTest extends TestCase
         self::assertCount(0, $registerBundleCalls);
     }
 
-    public function testProcessAddsConnectionsAfterBundles(): void
+    public function testRegisterBundleIsCalledBeforeRegisterConnection(): void
     {
         $this->container->setParameter('sulu_block_a.bundle_metadata', [
-            'bundle' => 'BundleA', 'package' => 'vendor/a', 'blocks' => [], 'children' => [],
+            'bundle' => 'BundleA', 'package' => 'vendor/a',
+            'blocks' => ['block-a'],
+            'children' => ['block-a' => ['block-b']],
         ]);
-        $this->container->setParameter('sulu_blocks.connections', [
-            ['requires' => ['BundleA'], 'blocks' => ['x'], 'description' => 'test'],
+        $this->container->setParameter('sulu_block_b.bundle_metadata', [
+            'bundle' => 'BundleB', 'package' => 'vendor/b',
+            'blocks' => ['block-b'],
+            'children' => [],
         ]);
 
         $this->pass->process($this->container);
@@ -83,5 +86,120 @@ class BlockBundleDiscoveryPassTest extends TestCase
             $registerBundlePos,
             'registerBundle must be called before registerConnection'
         );
+    }
+
+    public function testAutoDiscoversCrossConnectionBetweenBundles(): void
+    {
+        $this->container->setParameter('sulu_block_a.bundle_metadata', [
+            'bundle' => 'BundleA', 'package' => 'vendor/a',
+            'blocks' => ['block-a'],
+            'children' => ['block-a' => ['block-b']],
+        ]);
+        $this->container->setParameter('sulu_block_b.bundle_metadata', [
+            'bundle' => 'BundleB', 'package' => 'vendor/b',
+            'blocks' => ['block-b'],
+            'children' => [],
+        ]);
+
+        $this->pass->process($this->container);
+
+        $calls = $this->container->getDefinition('sulu_blocks.registry')->getMethodCalls();
+        $connectionCalls = array_values(array_filter($calls, static fn($c) => ($c[0] ?? null) === 'registerConnection'));
+        self::assertCount(1, $connectionCalls);
+        self::assertContains('block-b', $connectionCalls[0][1][1]);
+    }
+
+    public function testNoConnectionWhenChildIsInSameBundle(): void
+    {
+        $this->container->setParameter('sulu_block_a.bundle_metadata', [
+            'bundle' => 'BundleA', 'package' => 'vendor/a',
+            'blocks' => ['block-a', 'block-child'],
+            'children' => ['block-a' => ['block-child']],
+        ]);
+
+        $this->pass->process($this->container);
+
+        $calls = $this->container->getDefinition('sulu_blocks.registry')->getMethodCalls();
+        $connectionCalls = array_filter($calls, static fn($c) => ($c[0] ?? null) === 'registerConnection');
+        self::assertCount(0, $connectionCalls);
+    }
+
+    public function testNoConnectionWhenChildIsUnknown(): void
+    {
+        $this->container->setParameter('sulu_block_a.bundle_metadata', [
+            'bundle' => 'BundleA', 'package' => 'vendor/a',
+            'blocks' => ['block-a'],
+            'children' => ['block-a' => ['block-unknown']],
+        ]);
+
+        $this->pass->process($this->container);
+
+        $calls = $this->container->getDefinition('sulu_blocks.registry')->getMethodCalls();
+        $connectionCalls = array_filter($calls, static fn($c) => ($c[0] ?? null) === 'registerConnection');
+        self::assertCount(0, $connectionCalls);
+    }
+
+    public function testConnectionGroupsBlocksByBundlePair(): void
+    {
+        $this->container->setParameter('sulu_block_a.bundle_metadata', [
+            'bundle' => 'BundleA', 'package' => 'vendor/a',
+            'blocks' => ['block-a'],
+            'children' => ['block-a' => ['block-b1', 'block-b2']],
+        ]);
+        $this->container->setParameter('sulu_block_b.bundle_metadata', [
+            'bundle' => 'BundleB', 'package' => 'vendor/b',
+            'blocks' => ['block-b1', 'block-b2'],
+            'children' => [],
+        ]);
+
+        $this->pass->process($this->container);
+
+        $calls = $this->container->getDefinition('sulu_blocks.registry')->getMethodCalls();
+        $connectionCalls = array_values(array_filter($calls, static fn($c) => ($c[0] ?? null) === 'registerConnection'));
+        self::assertCount(1, $connectionCalls, 'two children from same bundle pair must produce one connection');
+        $blocks = $connectionCalls[0][1][1];
+        self::assertContains('block-b1', $blocks);
+        self::assertContains('block-b2', $blocks);
+    }
+
+    public function testConnectionRequiresPairIsSorted(): void
+    {
+        $this->container->setParameter('sulu_block_z.bundle_metadata', [
+            'bundle' => 'ZBundle', 'package' => 'vendor/z',
+            'blocks' => ['block-z'],
+            'children' => ['block-z' => ['block-a']],
+        ]);
+        $this->container->setParameter('sulu_block_a.bundle_metadata', [
+            'bundle' => 'ABundle', 'package' => 'vendor/a',
+            'blocks' => ['block-a'],
+            'children' => [],
+        ]);
+
+        $this->pass->process($this->container);
+
+        $calls = $this->container->getDefinition('sulu_blocks.registry')->getMethodCalls();
+        $connectionCalls = array_values(array_filter($calls, static fn($c) => ($c[0] ?? null) === 'registerConnection'));
+        self::assertCount(1, $connectionCalls);
+        self::assertSame(['ABundle', 'ZBundle'], $connectionCalls[0][1][0], 'requires must be alphabetically sorted');
+    }
+
+    public function testMutualChildrenProduceOneConnectionNotTwo(): void
+    {
+        $this->container->setParameter('sulu_block_a.bundle_metadata', [
+            'bundle' => 'BundleA', 'package' => 'vendor/a',
+            'blocks' => ['block-a'],
+            'children' => ['block-a' => ['block-b']],
+        ]);
+        $this->container->setParameter('sulu_block_b.bundle_metadata', [
+            'bundle' => 'BundleB', 'package' => 'vendor/b',
+            'blocks' => ['block-b'],
+            'children' => ['block-b' => ['block-a']],
+        ]);
+
+        $this->pass->process($this->container);
+
+        $calls = $this->container->getDefinition('sulu_blocks.registry')->getMethodCalls();
+        $connectionCalls = array_values(array_filter($calls, static fn($c) => ($c[0] ?? null) === 'registerConnection'));
+        self::assertCount(1, $connectionCalls, 'mutual cross-references must produce exactly one merged connection');
     }
 }
