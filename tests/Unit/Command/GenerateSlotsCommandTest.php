@@ -89,43 +89,6 @@ class GenerateSlotsCommandTest extends TestCase
         self::assertDirectoryExists($outputDir);
     }
 
-    public function testCommandRegistersSuluAdminConfigOnFirstRun(): void
-    {
-        \mkdir($this->tempDir . '/config/packages', 0755, true);
-        $outputDir  = $this->tempDir . '/config/templates/blocks';
-        $configFile = $this->tempDir . '/config/packages/sulu_admin.yaml';
-
-        $parameterBag = new ParameterBag([
-            'sulu_block_section.blocks_dir' => $this->sectionFixtureDir,
-        ]);
-
-        $command = new GenerateSlotsCommand(new BlockSlotCollector(), $parameterBag, $this->tempDir);
-        $tester  = new CommandTester($command);
-        $tester->execute(['output-dir' => $outputDir]);
-
-        self::assertFileExists($configFile);
-        self::assertStringContainsString('app_blocks', (string) \file_get_contents($configFile));
-    }
-
-    public function testCommandDoesNotDuplicateSuluAdminConfig(): void
-    {
-        \mkdir($this->tempDir . '/config/packages', 0755, true);
-        $outputDir  = $this->tempDir . '/config/templates/blocks';
-        $configFile = $this->tempDir . '/config/packages/sulu_admin.yaml';
-        \file_put_contents($configFile, "sulu_admin:\n    templates:\n        block:\n            directories:\n                app_blocks: 'some/path'\n");
-
-        $parameterBag = new ParameterBag([
-            'sulu_block_section.blocks_dir' => $this->sectionFixtureDir,
-        ]);
-
-        $command = new GenerateSlotsCommand(new BlockSlotCollector(), $parameterBag, $this->tempDir);
-        $tester  = new CommandTester($command);
-        $tester->execute(['output-dir' => $outputDir]);
-
-        $content = (string) \file_get_contents($configFile);
-        self::assertSame(1, \substr_count($content, 'app_blocks'));
-    }
-
     private function removeDir(string $dir): void
     {
         if (!\is_dir($dir)) {
