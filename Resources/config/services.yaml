@@ -23,3 +23,11 @@ services:
         tags:
             - { name: sulu.context, context: admin }
             - { name: controller.service_arguments }
+
+    Depa\SuluBlocksBundle\Service\BlockSlotCollector: ~
+
+    Depa\SuluBlocksBundle\Command\GenerateSlotsCommand:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+        tags:
+            - { name: console.command }

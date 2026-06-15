@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<template xmlns="http://schemas.sulu.io/template/template">
+    <key>block--test-section</key>
+    <meta>
+        <title lang="en">Test Section</title>
+    </meta>
+    <properties>
+        <section name="blocks">
+            <properties>
+                <block name="blocks" default-type="block--foo" minOccurs="0">
+                    <types>
+                        <type ref="block--foo"/>
+                        <type ref="block--bar"/>
+                    </types>
+                </block>
+            </properties>
+        </section>
+    </properties>
+</template>
