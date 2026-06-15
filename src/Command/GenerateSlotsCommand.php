@@ -74,6 +74,8 @@ class GenerateSlotsCommand extends Command
             $slots['container'],
         );
 
+        $this->ensureSuluAdminConfig($io, $outputDir);
+
         $io->success('Slot files generated successfully.');
 
         return Command::SUCCESS;
@@ -105,6 +107,35 @@ class GenerateSlotsCommand extends Command
     private function ensureDir(string $dir): bool
     {
         return \is_dir($dir) || \mkdir($dir, 0755, true);
+    }
+
+    private function ensureSuluAdminConfig(SymfonyStyle $io, string $outputDir): void
+    {
+        $configFile = $this->projectDir . '/config/packages/sulu_admin.yaml';
+        $marker     = 'app_blocks';
+
+        if (\is_file($configFile) && \str_contains((string) \file_get_contents($configFile), $marker)) {
+            return;
+        }
+
+        $configDir = \dirname($configFile);
+        if (!\is_dir($configDir) && !\mkdir($configDir, 0755, true) && !\is_dir($configDir)) {
+            return;
+        }
+
+        $entry = \sprintf(
+            "\nsulu_admin:\n    templates:\n        block:\n            directories:\n                %s: '%s'\n",
+            $marker,
+            $outputDir,
+        );
+
+        \file_put_contents($configFile, $entry, \FILE_APPEND);
+
+        $io->writeln(\sprintf(
+            '  Registered <info>%s</info> in <info>%s</info>',
+            $outputDir,
+            $configFile,
+        ));
     }
 
     /** @param list<string> $types */
