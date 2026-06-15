@@ -1,0 +1,33 @@
+{% set block_id = content._id|default %}
+{% set element = content.element|default('section') %}
+{% set displayType = '' %}
+{% if content.display in ['full', 'full_row'] %}
+    {% set displayType = 'full' %}
+{% elseif content.display in ['boxed', 'boxed_row'] %}
+    {% set displayType = 'boxed' %}
+{% endif %}
+{% set row = false %}
+{% if content.display in ['full_row', 'boxed_row'] %}
+    {% set row = true %}
+{% endif %}
+
+<{{ element }} data-cms-block-id="{{ block_id }}" class="block--section {{ displayType }} {{ content.attr_class|default('') }}{% if content.inverse_status|default %} inverse{% endif %}" {% if content.attr_id|default %}id="{{ content.attr_id }}"{% endif %}
+{% for attr in content.dataAttributes|default([]) %}
+    {% if attr.type == 'attribute' and attr.name and attr.value %}
+        {{ ' data-' ~ attr.name }}="{{ attr.value }}"
+    {% endif %}
+{% endfor %}
+{{ sulu_block_preview(content) }}>
+<div>
+    {% if row %}
+    <div class="row">{% endif %}
+        {% for block in content.blocks|default([]) %}
+            {% include 'includes/blocks/' ~ block.type ~ '.html.twig' with {
+                content: block,
+                view: view.blocks[loop.index0],
+            } %}
+        {% endfor %}
+        {% if row %}</div>{% endif %}
+
+</div>
+</{{ element }}>

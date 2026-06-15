@@ -42,8 +42,8 @@ class GenerateSlotsCommand extends Command
 
         $blocksDirs = $this->resolveBlocksDirs();
 
-        if (!isset($blocksDirs['sulu_block_section'])) {
-            $io->error('sulu-block-section is not installed. Cannot determine template source.');
+        if (!isset($blocksDirs['sulu_blocks'])) {
+            $io->error('sulu-blocks-bundle is not registered. Cannot determine template source.');
 
             return Command::FAILURE;
         }
@@ -58,7 +58,7 @@ class GenerateSlotsCommand extends Command
             return Command::FAILURE;
         }
 
-        $sectionTemplateDir = $blocksDirs['sulu_block_section'];
+        $sectionTemplateDir = $blocksDirs['sulu_blocks'];
 
         $this->writeXml(
             $io,

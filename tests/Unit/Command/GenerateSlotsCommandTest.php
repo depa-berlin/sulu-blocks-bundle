@@ -46,7 +46,7 @@ class GenerateSlotsCommandTest extends TestCase
         $outputDir = $this->tempDir . '/output';
 
         $parameterBag = new ParameterBag([
-            'sulu_block_section.blocks_dir' => $this->sectionFixtureDir,
+            'sulu_blocks.blocks_dir' => $this->sectionFixtureDir,
             'bundle_a.blocks_dir'           => $slotsDirA,
         ]);
 
@@ -79,7 +79,7 @@ class GenerateSlotsCommandTest extends TestCase
         $outputDir = $this->tempDir . '/deep/nested/output';
 
         $parameterBag = new ParameterBag([
-            'sulu_block_section.blocks_dir' => $this->sectionFixtureDir,
+            'sulu_blocks.blocks_dir' => $this->sectionFixtureDir,
         ]);
 
         $command = new GenerateSlotsCommand(new BlockSlotCollector(), $parameterBag, $this->tempDir);

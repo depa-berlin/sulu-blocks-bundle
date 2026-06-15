@@ -1,6 +1,6 @@
 {
     "name": "depa/sulu-blocks-bundle",
-    "description": "Meta-bundle that orchestrates modular Sulu block bundles with a registry, admin dashboard, and cross-bundle connections",
+    "description": "Meta-bundle for Sulu CMS: provides section/container blocks, registry, admin dashboard, and dynamic slot generation",
     "type": "symfony-bundle",
     "license": "proprietary",
     "require": {

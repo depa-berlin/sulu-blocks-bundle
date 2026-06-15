@@ -1,0 +1,112 @@
+<?xml version="1.0" ?>
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:xi="http://www.w3.org/2001/XInclude"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+
+    <key>block--section-youtube</key>
+
+    <meta>
+        <title lang="de">Section mit YouTube-Video</title>
+        <title lang="en">Section with YouTube video</title>
+    </meta>
+
+    <tag name="sulu.block_preview" priority="512"/>
+
+    <properties>
+
+        <property name="youtube_id" type="text_line" mandatory="true">
+            <meta>
+                <title lang="de">YouTube-Video-ID</title>
+                <title lang="en">YouTube video ID</title>
+                <info_text lang="de">Die 11-stellige ID aus der YouTube-URL, z.B. „2h_pI6Tz0lU" aus https://www.youtube.com/watch?v=2h_pI6Tz0lU</info_text>
+                <info_text lang="en">The 11-character ID from the YouTube URL, e.g. "2h_pI6Tz0lU" from https://www.youtube.com/watch?v=2h_pI6Tz0lU</info_text>
+            </meta>
+            <tag name="sulu.block_preview" priority="512"/>
+        </property>
+
+        <property name="headline" type="text_area">
+            <meta>
+                <title lang="de">Überschrift</title>
+                <title lang="en">Headline</title>
+            </meta>
+        </property>
+
+        <property name="subheadline" type="text_area">
+            <meta>
+                <title lang="de">Unterzeile</title>
+                <title lang="en">Subheadline</title>
+            </meta>
+        </property>
+
+        <property name="headline_element" type="single_select">
+            <meta>
+                <title lang="de">Überschriften-Element</title>
+                <title lang="en">Headline element</title>
+            </meta>
+            <params>
+                <param name="default_value" value="h2"/>
+                <param name="values" type="collection">
+                    <param name="h1"><meta><title lang="de">H1</title></meta></param>
+                    <param name="h2"><meta><title lang="de">H2</title></meta></param>
+                    <param name="h3"><meta><title lang="de">H3</title></meta></param>
+                    <param name="h4"><meta><title lang="de">H4</title></meta></param>
+                    <param name="h5"><meta><title lang="de">H5</title></meta></param>
+                    <param name="p"><meta><title lang="de">P</title></meta></param>
+                </param>
+            </params>
+        </property>
+
+        <property name="button_text" type="text_line">
+            <meta>
+                <title lang="de">Button-Text</title>
+                <title lang="en">Button text</title>
+                <info_text lang="de">Text des Play-Buttons. Standard: „Video ansehen"</info_text>
+                <info_text lang="en">Play button label. Default: "Video ansehen"</info_text>
+            </meta>
+        </property>
+
+        <property name="image" type="single_media_selection">
+            <meta>
+                <title lang="de">Hintergrundbild</title>
+                <title lang="en">Background image</title>
+                <info_text lang="de">Optionales Hintergrundbild für die Section.</info_text>
+                <info_text lang="en">Optional background image for the section.</info_text>
+            </meta>
+            <params>
+                <param name="types" value="image"/>
+            </params>
+        </property>
+
+        <section name="config">
+            <meta>
+                <title lang="de">Einstellungen</title>
+                <title lang="en">Settings</title>
+            </meta>
+            <properties>
+                <property name="min_height" type="single_select" colspan="6">
+                    <meta>
+                        <title lang="de">Mindesthöhe der Section</title>
+                        <title lang="en">Section min-height</title>
+                    </meta>
+                    <params>
+                        <param name="default_value" value="50vh"/>
+                        <param name="values" type="collection">
+                            <param name="300px"><meta><title lang="de">300 px</title></meta></param>
+                            <param name="420px"><meta><title lang="de">420 px</title></meta></param>
+                            <param name="50vh"><meta><title lang="de">50 vh</title></meta></param>
+                            <param name="70vh"><meta><title lang="de">70 vh</title></meta></param>
+                            <param name="100vh"><meta><title lang="de">100 vh (Fullscreen)</title></meta></param>
+                        </param>
+                    </params>
+                </property>
+                <xi:include href="../_fragments/attr_class.xml" xpointer="xmlns(sulu=http://schemas.sulu.io/template/template)
+                      xpointer(/sulu:properties/*)"/>
+                <xi:include href="../_fragments/attr_id.xml" xpointer="xmlns(sulu=http://schemas.sulu.io/template/template)
+                      xpointer(/sulu:properties/*)"/>
+            </properties>
+        </section>
+
+    </properties>
+
+</template>
