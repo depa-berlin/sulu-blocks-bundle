@@ -60,19 +60,23 @@ class GenerateSlotsCommand extends Command
 
         $sectionTemplateDir = $blocksDirs['sulu_blocks'];
 
-        $this->writeXml(
+        $ok = $this->writeXml(
             $io,
             $sectionTemplateDir . '/block--section.xml',
             $outputDir . '/block--section.xml',
             $slots['section'],
         );
 
-        $this->writeXml(
+        $ok = $this->writeXml(
             $io,
             $sectionTemplateDir . '/block--container.xml',
             $outputDir . '/block--container.xml',
             $slots['container'],
-        );
+        ) && $ok;
+
+        if (!$ok) {
+            return Command::FAILURE;
+        }
 
         $io->success('Slot files generated successfully.');
 
@@ -86,7 +90,7 @@ class GenerateSlotsCommand extends Command
 
         foreach ($this->parameterBag->all() as $name => $value) {
             if (\str_ends_with((string) $name, '.blocks_dir') && \is_string($value)) {
-                $alias = \str_replace('.blocks_dir', '', (string) $name);
+                $alias = \substr((string) $name, 0, -\strlen('.blocks_dir'));
                 $dirs[$alias] = $value;
             }
         }
@@ -108,14 +112,22 @@ class GenerateSlotsCommand extends Command
     }
 
     /** @param list<string> $types */
-    private function writeXml(SymfonyStyle $io, string $templateFile, string $outputFile, array $types): void
+    private function writeXml(SymfonyStyle $io, string $templateFile, string $outputFile, array $types): bool
     {
         $xml = $this->collector->generateXml($templateFile, $types);
-        \file_put_contents($outputFile, $xml);
+
+        if (\file_put_contents($outputFile, $xml) === false) {
+            $io->error(\sprintf('Could not write file: %s', $outputFile));
+
+            return false;
+        }
+
         $io->writeln(\sprintf(
             '  Generated <info>%s</info> (%d types)',
             $outputFile,
             \count($types),
         ));
+
+        return true;
     }
 }
