@@ -1,0 +1,56 @@
+{% set block_id = content._id|default %}
+{% set element = content.element|default('section') %}
+{% set displayType = '' %}
+{% if content.display in ['full', 'full_row'] %}
+    {% set displayType = 'full' %}
+{% elseif content.display in ['boxed', 'boxed_row'] %}
+    {% set displayType = 'boxed' %}
+{% endif %}
+{% set row = false %}
+{% if content.display in ['full_row', 'boxed_row'] %}
+    {% set row = true %}
+{% endif %}
+{% set image = sulu_resolve_media(content.image, app.request.locale) %}
+{% set image_mobile = sulu_resolve_media(content.image_mobile, app.request.locale) %}
+{% set loading = content.loading|default('lazy') %}
+
+<{{ element }} data-cms-block-id="{{ block_id }}" class="block--section-image {{ displayType }} {{ content.attr_class|default('') }}" {% if content.attr_id|default %}id="{{ content.attr_id }}"{% endif %} {{ sulu_block_preview(content) }}>
+<div class="image-wrapper">
+    {% if image_mobile %}
+        <picture class="d-md-none">
+            <source media="(min-width: 576px)" srcset="{{ image_mobile.thumbnails['767x'] }}">
+            <img
+                src="{{ image_mobile.thumbnails['575x'] }}"
+                width="{{ image_mobile.properties.width }}" height="{{ image_mobile.properties.height }}"
+                alt="{{ image_mobile.title|default('') }}"
+                {% if image_mobile.description %}title="{{ image_mobile.description }}"{% endif %}
+                loading="{{ loading }}">
+        </picture>
+    {% endif %}
+    {% if image %}
+        <picture class="d-none d-md-inline">
+            <source media="(min-width: 1400px)" srcset="{{ image.thumbnails['1920x'] }}">
+            <source media="(min-width: 1200px)" srcset="{{ image.thumbnails['1400x'] }}">
+            <source media="(min-width: 992px)" srcset="{{ image.thumbnails['1200x'] }}">
+            <img
+                src="{{ image.thumbnails['992x'] }}"
+                width="{{ image.properties.width }}" height="{{ image.properties.height }}"
+                alt="{{ image.title|default('') }}" {% if image.description %}title="{{ image.description }}"{% endif %}
+                loading="{{ loading }}">
+        </picture>
+    {% endif %}
+</div>
+<div class="content-wrapper">
+    <div>
+        {% if row %}
+        <div class="row">{% endif %}
+            {% for block in content.blocks|default([]) %}
+                {% include 'includes/blocks/' ~ block.type ~ '.html.twig' with {
+                    content: block,
+                    view: view.blocks[loop.index0],
+                } %}
+            {% endfor %}
+            {% if row %}</div>{% endif %}
+    </div>
+</div>
+</{{ element }}>

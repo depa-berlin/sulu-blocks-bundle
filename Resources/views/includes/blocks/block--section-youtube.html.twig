@@ -1,0 +1,82 @@
+{% set block_id = content._id|default %}
+{% set youtube_id = content.youtube_id|default %}
+{% set headline = content.headline|default %}
+{% set subheadline = content.subheadline|default %}
+{% set button_text = content.button_text|default('Video ansehen') %}
+{% set headline_element = content.headline_element|default('h2') %}
+{% set min_height = content.min_height|default('50vh') %}
+{% set image = sulu_resolve_media(content.image, app.request.locale) %}
+{% set modal_id = 'yt-modal-' ~ block_id %}
+
+{% if youtube_id %}
+    <link rel="stylesheet" href="{{ asset('website/styles/block--section-youtube.css') }}" media="screen">
+    {% do asset_collector.addAsset('/website/js/block--section-youtube.js', {'defer': true}, true) %}
+
+    <section
+        class="block--section-youtube {{ content.attr_class|default }}"
+        data-cms-block-id="{{ block_id }}"
+        data-modal-id="{{ modal_id }}"
+        {% if content.attr_id|default %}id="{{ content.attr_id }}"{% endif %}
+        style="min-height: {{ min_height }};{% if image|default %} background-image: url('{{ image.url }}');{% endif %}"
+        aria-label="{{ headline|default(button_text) }}"
+        {{ sulu_block_preview(content) }}
+    >
+        <div class="block--section-youtube__overlay" aria-hidden="true"></div>
+        <div class="block--section-youtube__content container">
+            {% if headline %}
+                <{{ headline_element }} class="block--section-youtube__headline">{{ headline|nl2br }}</{{ headline_element }}>
+            {% endif %}
+            {% if subheadline %}
+                <p class="block--section-youtube__subheadline">{{ subheadline|nl2br }}</p>
+            {% endif %}
+            <button
+                class="block--section-youtube__play-btn"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#{{ modal_id }}"
+            >
+                <span class="block--section-youtube__play-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </span>
+                <span class="block--section-youtube__play-label">{{ button_text }}</span>
+            </button>
+        </div>
+    </section>
+
+    {#
+        The modal is placed here in the source but the JS will move it to <body>
+        before Bootstrap initialises it, to avoid z-index / overflow clipping issues
+        caused by ancestor containers.
+    #}
+    <div
+        class="modal fade block--section-youtube__modal"
+        id="{{ modal_id }}"
+        tabindex="-1"
+        aria-labelledby="{{ modal_id }}-title"
+        aria-hidden="true"
+        data-youtube-id="{{ youtube_id }}"
+    >
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content bg-white">
+                <div class="modal-header border-0 position-absolute top-0 end-0 p-3" style="z-index: 1;">
+                    <h2 id="{{ modal_id }}-title" class="visually-hidden">{{ headline|default(button_text) }}</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+                </div>
+                <div class="modal-body p-0 d-flex align-items-center justify-content-center">
+                    <div class="ratio ratio-16x9 w-100">
+                        <iframe
+                            class="block--section-youtube__iframe"
+                            src=""
+                            title="{{ headline|default('YouTube Video') }}"
+                            allow="autoplay; fullscreen; picture-in-picture"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+

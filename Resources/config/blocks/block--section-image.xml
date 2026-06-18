@@ -1,0 +1,193 @@
+<?xml version="1.0" ?>
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:xi="http://www.w3.org/2001/XInclude"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+    <key>block--section-image</key>
+    <meta>
+        <title lang="en">Section with background image</title>
+        <title lang="de">Section mit Hintergrundbild</title>
+    </meta>
+    <tag name="sulu.block_preview" priority="512"/>
+
+    <properties>
+        <property name="comment" type="text_line">
+            <!-- @see https://docs.sulu.io/en/2.2/book/extend-admin.html#selection-field-type -->
+            <meta>
+                <title lang="en">Bemerkung</title>
+                <title lang="de">Bemerkung</title>
+            </meta>
+            <tag name="sulu.block_preview" priority="512"/>
+        </property>
+        <section name="blocks">
+            <meta>
+                <title lang="en">Content</title>
+                <title lang="de">Inhalt</title>
+            </meta>
+            <properties>
+                <block name="blocks" default-type="block--container" minOccurs="0">
+                    <meta>
+                        <title lang="en">Sub Blocks</title>
+                    </meta>
+                    <params>
+                        <param name="block_id_generator" value="true"/>
+                    </params>
+                    <types>
+                        <type ref="block--seminar-list" />
+                        <type ref="block--container"/>
+                        <type ref="block--grid-row"/>
+                        <type ref="block--grid-col"/>
+                        <type ref="block--hero-call2action"/>
+                        <type ref="block--hero-content"/>
+                        <type ref="block--image-card"/>
+                        <type ref="block--promo-grid"/>
+                        <type ref="block--content-text"/>
+                        <type ref="block--content-html"/>
+                        <type ref="block--content-lead"/>
+                        <type ref="block--content-lead-html"/>
+                        <type ref="block--content-video"/>
+                        <type ref="block--content-inline-svg" />
+                        <type ref="block--content-col-lead" />
+                        <type ref="block--content-col-headline" />
+                        <type ref="block--content-form" />
+                        <type ref="block--swiper-3-image" />
+                        <type ref="block--grid-three-col-snippet" />
+                        <type ref="block--grid-three-col" />
+                        <type ref="block--hero-image" />
+                        <type ref="block--grid-row-1col" />
+                        <type ref="block--grid-row-2col" />
+                        <type ref="block--grid-row-3col" />
+                    </types>
+                </block>
+            </properties>
+        </section>
+    <section name="image">
+    <meta>
+        <title lang="en">Images</title>
+        <title lang="de">Bilder</title>
+    </meta>
+    <properties>
+        <property name="image" type="single_media_selection" mandatory="true">
+            <meta>
+                <title lang="en">Image</title>
+                <title lang="de">Bild</title>
+            </meta>
+            <params>
+                <param name="types" value="image"/>
+                <param name="min" value="1"/>
+                <param name="max" value="1"/>
+            </params>
+            <tag name="sulu.block_preview" priority="512"/>
+        </property>
+        <property name="image_mobile" type="single_media_selection" mandatory="false">
+            <meta>
+                <title lang="en">Image mobile</title>
+                <title lang="de">Bild mobile</title>
+            </meta>
+            <params>
+                <param name="types" value="image"/>
+                <param name="min" value="1"/>
+                <param name="max" value="1"/>
+            </params>
+
+        </property>
+    </properties>
+    </section>
+        <section name="config">
+            <meta>
+                <title lang="en">Config</title>
+                <title lang="de">Einstellungen</title>
+            </meta>
+            <properties>
+                <property name="element" type="single_select" colspan="6">
+                    <!-- @see https://docs.sulu.io/en/2.2/book/extend-admin.html#selection-field-type -->
+                    <meta>
+                        <title lang="en">HTML-Element</title>
+                        <title lang="de">HTML-Element</title>
+                    </meta>
+                    <params>
+                        <param name="default_value" value="section"/>
+
+                        <param name="values" type="collection">
+                            <param name="section">
+                                <meta>
+                                    <title lang="en">section</title>
+                                </meta>
+
+                            </param>
+                            <param name="div">
+                                <meta>
+                                    <title lang="en">div</title>
+                                </meta>
+                            </param>
+                        </param>
+                    </params>
+                </property>
+                <property name="display" type="single_select" colspan="6">
+                    <!-- @see https://docs.sulu.io/en/2.2/book/extend-admin.html#selection-field-type -->
+                    <meta>
+                        <title lang="en">Darstellung</title>
+                        <title lang="de">Darstellung</title>
+                    </meta>
+                    <params>
+                        <param name="default_value" value="full"/>
+
+                        <param name="values" type="collection">
+                            <param name="boxed">
+                                <meta>
+                                    <title lang="en">Boxed</title>
+                                </meta>
+                            </param>
+                            <param name="boxed_row">
+                                <meta>
+                                    <title lang="en">Boxed with row</title>
+                                </meta>
+                            </param>
+                            <param name="full">
+                                <meta>
+                                    <title lang="en">Full</title>
+                                </meta>
+                            </param>
+                            <param name="full_row">
+                                <meta>
+                                    <title lang="en">Full with row</title>
+                                </meta>
+                            </param>
+                        </param>
+                    </params>
+                </property>
+                <property name="loading" type="single_select">
+                    <meta>
+                        <title lang="en">Loading images</title>
+                        <title lang="de">Laden von Bildern</title>
+                    </meta>
+
+                    <params>
+                        <param name="default_value" value="lazy"/>
+
+                        <param name="values" type="collection">
+                            <param name="lazy">
+                                <meta>
+                                    <title lang="en">lazy</title>
+                                    <title lang="de">auf dem letzten Drücker</title>
+                                </meta>
+                            </param>
+
+                            <param name="eager">
+                                <meta>
+                                    <title lang="en">eager</title>
+                                    <title lang="de">bevorzugt</title>
+                                </meta>
+                            </param>
+
+                        </param>
+                    </params>
+                </property>
+                <xi:include href="../_fragments/attr_class.xml" xpointer="xmlns(sulu=http://schemas.sulu.io/template/template)
+                      xpointer(/sulu:properties/*)"/>
+                <xi:include href="../_fragments/attr_id.xml" xpointer="xmlns(sulu=http://schemas.sulu.io/template/template)
+                      xpointer(/sulu:properties/*)"/>
+            </properties>
+        </section>
+    </properties>
+</template>

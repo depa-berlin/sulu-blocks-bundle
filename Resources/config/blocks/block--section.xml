@@ -1,0 +1,209 @@
+<?xml version="1.0" ?>
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:xi="http://www.w3.org/2001/XInclude"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+    <key>block--section</key>
+    <meta>
+        <title lang="en">Section</title>
+        <title lang="de">Section</title>
+    </meta>
+    <tag name="sulu.block_preview" priority="512"/>
+
+    <properties>
+        <property name="comment" type="text_line">
+            <!-- @see https://docs.sulu.io/en/2.2/book/extend-admin.html#selection-field-type -->
+            <meta>
+                <title lang="en">Bemerkung</title>
+                <title lang="de">Bemerkung</title>
+            </meta>
+            <tag name="sulu.block_preview" priority="512"/>
+        </property>
+        <section name="blocks">
+            <meta>
+                <title lang="en">Content</title>
+                <title lang="de">Inhalt</title>
+            </meta>
+            <properties>
+                <block name="blocks" default-type="block--container" minOccurs="0">
+                    <meta>
+                        <title lang="en">Sub Blocks</title>
+                    </meta>
+                    <params>
+                        <param name="block_id_generator" value="true"/>
+                    </params>
+                    <types>
+                        <type ref="block--container"/>
+                        <type ref="block--content-box"/>
+                        <type ref="block--grid-row"/>
+                        <type ref="block--grid-col"/>
+                        <type ref="block--hero-call2action"/>
+                        <type ref="block--hero-content"/>
+                        <type ref="block--image-card"/>
+                        <type ref="block--promo-grid"/>
+                        <type ref="block--content-headline"/>
+                        <type ref="block--content-title"/>
+                        <type ref="block--content-text"/>
+                        <type ref="block--content-html"/>
+                        <type ref="block--content-html-template"/>
+                        <type ref="block--content-lead"/>
+                        <type ref="block--content-lead-html"/>
+                        <type ref="block--content-video"/>
+                        <type ref="block--content-image" />
+                        <type ref="block--content-inline-svg" />
+                        <type ref="block--content-col-lead" />
+                        <type ref="block--content-col-headline" />
+                        <type ref="block--content-button-grid"/>
+                        <type ref="block--content-list"/>
+                        <type ref="block--content-form" />
+                        <type ref="block--swiper-3-image" />
+                        <type ref="block--grid-three-col-snippet" />
+                        <type ref="block--grid-three-col" />
+                        <type ref="block--hero-image" />
+                        <type ref="block--grid-row-1col" />
+                        <type ref="block--grid-row-2col" />
+                        <type ref="block--grid-row-3col" />
+                        <type ref="block--css-grid" />
+                        <type ref="block--articles-block-list" />
+                        <type ref="block--articles-block-navi" />
+                        <type ref="block--articles-block-item" />
+                        <type ref="block--contacts-list" />
+                        <type ref="block--dcam-service-contact" />
+                        <type ref="block--seminar-list" />
+                        <type ref="block--swiper" />
+                        <type ref="block--layout-faq" />
+                        <type ref="block--layout-hero" />
+                        <type ref="block--iframe" />
+                        <type ref="block--tabs" />
+                        <type ref="block--layout-media-text" />
+                        <type ref="block--nav-breadcrumb" />
+                        <type ref="block--swiper-hero" />
+                        <type ref="block--swiper-bg" />
+                        <type ref="block--google-reviews" />
+                    </types>
+                </block>
+            </properties>
+        </section>
+        <section name="config">
+            <meta>
+                <title lang="en">Config</title>
+                <title lang="de">Einstellungen</title>
+            </meta>
+            <properties>
+                <property name="element" type="single_select" colspan="6">
+                    <!-- @see https://docs.sulu.io/en/2.2/book/extend-admin.html#selection-field-type -->
+                    <meta>
+                        <title lang="en">HTML-Element</title>
+                        <title lang="de">HTML-Element</title>
+                    </meta>
+                    <params>
+                        <param name="default_value" value="section"/>
+
+                        <param name="values" type="collection">
+                            <param name="section">
+                                <meta>
+                                    <title lang="en">section</title>
+                                    <title lang="de">section</title>
+                                </meta>
+
+                            </param>
+                            <param name="div">
+                                <meta>
+                                    <title lang="en">div</title>
+                                    <title lang="de">div</title>
+                                </meta>
+                            </param>
+                        </param>
+                    </params>
+                </property>
+                <property name="display" type="single_select" colspan="6">
+                    <!-- @see https://docs.sulu.io/en/2.2/book/extend-admin.html#selection-field-type -->
+                    <meta>
+                        <title lang="en">Darstellung</title>
+                        <title lang="de">Darstellung</title>
+                    </meta>
+                    <params>
+                        <param name="default_value" value="full"/>
+
+                        <param name="values" type="collection">
+                            <param name="boxed">
+                                <meta>
+                                    <title lang="en">Boxed</title>
+                                </meta>
+                            </param>
+                            <param name="boxed_row">
+                                <meta>
+                                    <title lang="en">Boxed with row</title>
+                                </meta>
+                            </param>
+                            <param name="full">
+                                <meta>
+                                    <title lang="en">Full</title>
+                                </meta>
+                            </param>
+                            <param name="full_row">
+                                <meta>
+                                    <title lang="en">Full with row</title>
+                                </meta>
+                            </param>
+                        </param>
+                    </params>
+                </property>
+                <property name="inverse_status" type="checkbox">
+                    <!-- @see https://docs.sulu.io/en/2.2/book/extend-admin.html#selection-field-type -->
+                    <meta>
+                        <title lang="en">Inverse representation</title>
+                        <title lang="de">Inverse Darstellung</title>
+                    </meta>
+                    <params>
+                        <param name="type" value="toggler"/>
+                        <param name="default_value" value="false"/>
+                    </params>
+                </property>
+                <xi:include href="../_fragments/attr_class.xml" xpointer="xmlns(sulu=http://schemas.sulu.io/template/template)
+                      xpointer(/sulu:properties/*)"/>
+                <xi:include href="../_fragments/attr_id.xml" xpointer="xmlns(sulu=http://schemas.sulu.io/template/template)
+                      xpointer(/sulu:properties/*)"/>
+
+
+            </properties>
+        </section>
+    <section name="data-attribute">
+    <meta>
+        <title lang="en">Data-Attribute</title>
+        <title lang="de">Data-Attribute</title>
+    </meta>
+    <properties>
+        <property name="dataAttributes" type="block">
+
+            <params>
+                <param name="add_button_text">
+                    <meta>
+                        <title lang="en">Add data-attribut</title>
+                        <title lang="de">Data-Attribut hinzufügen</title>
+                    </meta>
+                </param>
+            </params>
+            <types>
+                <type name="attribute">
+                    <properties>
+                        <property name="name" type="text_line" colspan="6">
+                            <meta>
+                                <title lang="en">Name</title>
+                                <title lang="de">Name (data-...)</title>
+                            </meta>
+                        </property>
+                        <property name="value" type="text_line" colspan="6">
+                            <meta>
+                                <title lang="en">Value</title>
+                                <title lang="de">Wert</title>
+                            </meta>
+                        </property>
+                    </properties>
+                </type>
+            </types>
+        </property>
+    </properties>
+    </section>
+    </properties>
+</template>
