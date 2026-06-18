@@ -9,15 +9,19 @@ Meta-bundle for Sulu CMS that orchestrates modular block bundles. Provides a cen
 - **Cross-Bundle Connections** — automatically detects compatible installed bundles and activates shared block capabilities
 - **Self-Registration** — block bundles register themselves via container parameters; no hardcoded lists in the meta-bundle
 - **Twig Functions** — `sulu_blocks_installed_bundles()`, `sulu_blocks_available_types()`, `sulu_blocks_is_bundle_installed()`
+- **Dynamic Slot Generation** — generates `block--section.xml` and `block--container.xml` based on installed packages
 
 ## Architecture
 
 ```
-sulu-block-helper          (shared XML fragments + Twig partials)
+sulu-block-helper          (shared base classes + Twig partials)
        │
-       ├── sulu-block-content (29 content blocks)
-       │
-       └── sulu-block-swiper  (8 swiper blocks)
+       ├── sulu-block-content (content blocks)
+       ├── sulu-block-grid    (grid blocks)
+       ├── sulu-block-hero    (hero blocks)
+       ├── sulu-block-layout  (layout blocks)
+       ├── sulu-block-section (section + container blocks)
+       └── sulu-block-swiper  (swiper/carousel blocks)
 
 sulu-blocks-bundle            (this meta-bundle)
        │
@@ -29,26 +33,86 @@ sulu-blocks-bundle            (this meta-bundle)
 - PHP 8.2+
 - Symfony 7.0+
 - Sulu CMS 3.0+
-- `depa-berlin/sulu-block-helper`
+- `depa/sulu-block-helper`
+- `depa/sulu-block-section` (required for slot generation)
 
 ## Installation
 
 ```bash
-composer require depa-berlin/sulu-blocks-bundle
+composer require depa/sulu-blocks-bundle
 
 # Optionally install block collections:
-composer require depa-berlin/sulu-block-content
-composer require depa-berlin/sulu-block-swiper
+composer require depa/sulu-block-content
+composer require depa/sulu-block-grid
+composer require depa/sulu-block-hero
+composer require depa/sulu-block-layout
+composer require depa/sulu-block-section
+composer require depa/sulu-block-swiper
 ```
 
-Register in `config/bundles.php` (order matters):
+Register in `config/bundles.php`:
 
 ```php
-Depa\SuluBlockHelperBundle\SuluBlockHelperBundle::class => ['all' => true],
-Depa\SuluBlocksBundle\SuluBlocksBundle::class => ['all' => true],
-Depa\SuluBlockContentBundle\SuluBlockContentBundle::class => ['all' => true],  // optional
-Depa\SuluBlockSwiperBundle\SuluBlockSwiperBundle::class => ['all' => true],    // optional
+Depa\SuluBlockHelperBundle\SuluBlockHelperBundle::class  => ['all' => true],
+Depa\SuluBlockContentBundle\SuluBlockContentBundle::class => ['all' => true], // optional
+Depa\SuluBlockGridBundle\SuluBlockGridBundle::class       => ['all' => true], // optional
+Depa\SuluBlockHeroBundle\SuluBlockHeroBundle::class       => ['all' => true], // optional
+Depa\SuluBlockLayoutBundle\SuluBlockLayoutBundle::class   => ['all' => true], // optional
+Depa\SuluBlockSectionBundle\SuluBlockSectionBundle::class => ['all' => true], // optional
+Depa\SuluBlockSwiperBundle\SuluBlockSwiperBundle::class   => ['all' => true], // optional
+Depa\SuluBlocksBundle\SuluBlocksBundle::class             => ['all' => true],
 ```
+
+Register the project override directory in `config/packages/sulu_admin.yaml`:
+
+```yaml
+sulu_admin:
+    templates:
+        block:
+            directories:
+                app_blocks: '%kernel.project_dir%/config/templates/blocks'
+```
+
+## Dynamic Slot Generation
+
+`block--section.xml` and `block--container.xml` contain a list of sub-block types that
+vary depending on which block packages are installed. Instead of maintaining this list
+manually, run the following command after installing or removing a block package:
+
+```bash
+bin/console sulu:blocks:generate-slots
+```
+
+This command:
+
+1. Reads all registered block directories (`sulu_admin.templates.block.directories`)
+2. Collects block types declared in each package's `_slots.yaml`
+3. Uses `block--section.xml` and `block--container.xml` from `sulu-block-section` as templates
+4. Writes the generated files to `config/templates/blocks/` in the project
+
+The generated files override the package defaults via the `app_blocks` directory registered above.
+
+To write to a custom directory:
+
+```bash
+bin/console sulu:blocks:generate-slots path/to/output/
+```
+
+### Declaring slot-compatible blocks in a custom bundle
+
+Add a `_slots.yaml` to your bundle's block directory:
+
+```yaml
+# Resources/config/blocks/_slots.yaml
+section:
+    - block--my-custom-block
+    - block--my-other-block
+
+container:
+    - block--my-custom-block
+```
+
+The command picks this up automatically — no changes to `sulu-blocks-bundle` required.
 
 ## Adding a New Block Bundle
 

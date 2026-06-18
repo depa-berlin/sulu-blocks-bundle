@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:xi="http://www.w3.org/2001/XInclude"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+    <key>block--container</key>
+    <meta>
+        <title lang="en">Container</title>
+        <title lang="de">Container</title>
+    </meta>
+    <tag name="sulu.block_preview" priority="512"/>
+
+    <properties>
+        <property name="comment" type="text_line">
+            <!-- @see https://docs.sulu.io/en/2.2/book/extend-admin.html#selection-field-type -->
+            <meta>
+                <title lang="en">Bemerkung</title>
+                <title lang="de">Bemerkung</title>
+            </meta>
+            <tag name="sulu.block_preview" priority="512"/>
+        </property>
+        <section name="blocks">
+            <meta>
+                <title lang="en">Content</title>
+                <title lang="de">Inhalt</title>
+            </meta>
+            <properties>
+                <block name="blocks" default-type="block--content-html" minOccurs="0">
+                    <meta>
+                        <title lang="en">Sub Blocks</title>
+                    </meta>
+                    <params>
+                        <param name="block_id_generator" value="true"/>
+                    </params>
+                    <types>
+                        <type ref="block--content-col-lead" />
+                        <type ref="block--content-col-headline" />
+                        <type ref="block--grid-row"/>
+                        <type ref="block--grid-col"/>
+                        <type ref="block--hero-call2action"/>
+                        <type ref="block--image-card"/>
+                        <type ref="block--promo-grid"/>
+                        <type ref="block--content-text"/>
+                        <type ref="block--content-html"/>
+                        <type ref="block--content-lead"/>
+                        <type ref="block--content-lead-html"/>
+                        <type ref="block--content-image"/>
+                        <type ref="block--content-inline-svg" />
+                        <type ref="block--content-video"/>
+                        <type ref="block--content-button"/>
+                        <type ref="block--content-button-content"/>
+                        <type ref="block--content-button-multiline"/>
+                        <type ref="block--content-button-grid"/>
+                        <type ref="block--content-col-lead" />
+                        <type ref="block--content-col-lead-html" />
+                        <type ref="block--content-headline"/>
+                        <type ref="block--content-title"/>
+                        <type ref="block--content-form" />
+                        <type ref="block--swiper-3-image" />
+                        <type ref="block--grid-three-col-snippet" />
+                        <type ref="block--grid-three-col" />
+                        <type ref="block--grid-row-1col" />
+                        <type ref="block--grid-row-2col" />
+                        <type ref="block--grid-row-3col" />
+                        <type ref="block--articles-block-list" />
+                        <type ref="block--swiper" />
+                        <type ref="block--section-youtube" />
+                        <type ref="block--nav-breadcrumb" />
+                    </types>
+                </block>
+            </properties>
+        </section>
+        <section name="config">
+            <meta>
+                <title lang="en">Config</title>
+                <title lang="de">Einstellungen</title>
+            </meta>
+            <properties>
+
+                <property name="display" type="single_select">
+                    <!-- @see https://docs.sulu.io/en/2.2/book/extend-admin.html#selection-field-type -->
+                    <meta>
+                        <title lang="en">Darstellung</title>
+                        <title lang="de">Darstellung</title>
+                    </meta>
+                    <params>
+                        <param name="default_value" value="full"/>
+
+                        <param name="values" type="collection">
+
+                            <param name="boxed">
+                                <meta>
+                                    <title lang="en">Boxed</title>
+                                    <title lang="de">Boxed</title>
+                                </meta>
+                            </param>
+                            <param name="boxed_row">
+                                <meta>
+                                    <title lang="en">Boxed with row</title>
+                                    <title lang="de">Boxed with row</title>
+                                </meta>
+                            </param>
+                            <param name="full">
+                                <meta>
+                                    <title lang="en">Full</title>
+                                    <title lang="de">Full</title>
+                                </meta>
+                            </param>
+                            <param name="full_row">
+                                <meta>
+                                    <title lang="en">Full with row</title>
+                                    <title lang="de">Full with row</title>
+                                </meta>
+                            </param>
+                        </param>
+                    </params>
+                </property>
+                <xi:include href="../_fragments/attr_class.xml" xpointer="xmlns(sulu=http://schemas.sulu.io/template/template)
+                      xpointer(/sulu:properties/*)"/>
+                <xi:include href="../_fragments/attr_id.xml" xpointer="xmlns(sulu=http://schemas.sulu.io/template/template)
+                      xpointer(/sulu:properties/*)"/>
+            </properties>
+        </section>
+    </properties>
+</template>

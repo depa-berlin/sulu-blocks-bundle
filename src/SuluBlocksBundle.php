@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Depa\SuluBlocksBundle;
 
 use Depa\SuluBlocksBundle\DependencyInjection\Compiler\BlockBundleDiscoveryPass;
+use Depa\SuluBlocksBundle\DependencyInjection\Compiler\BlockSlotDirectoriesPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -14,6 +15,7 @@ class SuluBlocksBundle extends Bundle
     {
         parent::build($container);
         $container->addCompilerPass(new BlockBundleDiscoveryPass());
+        $container->addCompilerPass(new BlockSlotDirectoriesPass());
     }
 
     public function getPath(): string
